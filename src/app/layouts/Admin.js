@@ -1,39 +1,42 @@
 import React from 'react';
-import { Link, Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 // import static
-import "../assets/sidebar.css"
+import "../assets/sidebar.css";
 
-function Detail(){
-  return(
-    <div>
-      <h1>detail here</h1>
-    </div>
-  )
-}
+// import components
+import AdminSidebar from '../components/AdminSidebar';
+import AdminHeader from '../components/AdminHeader';
 
-function Region(){
-  return(
-    <div>
-      <h1>region here</h1>
-    </div>
-  )
-}
+// import screen
+import DashboardScreen from '../screens/DashboardScreen';
 
 class Admin extends React.Component {
     state = {
         isRedirect : false
     }
-    componentDidMount(){}
     render(){
+        if(this.state.isRedirect){
+            return <Redirect to={"/auth"} />
+        }
         return (
             <div className="d-flex" id="wrapper">
-              <Switch>
-                <Route exac path={'/admin/dashboard'} component={Detail} key="1" />
-                <Route path={'/admin/regions'} component={Region} key="2" />
-                <Redirect from="/admin/" to="/admin/dashboard" />
-
-              </Switch>
+              {/* Sidebar */}
+              <AdminSidebar />
+              {/* /#sidebar-wrapper */}
+              {/* Page Content */}
+              <div id="page-content-wrapper">
+                {/* nav start */}
+                <AdminHeader />
+                {/* nav end */}
+                <div className="container-fluid">
+                  <Switch>
+                    <Route exac path={'/admin/dashboard'} component={DashboardScreen} key="1" />
+                    <Route path={'/admin/regions'} component={DashboardScreen} key="2" />
+                    <Redirect from="/admin/" to="/admin/dashboard" />
+                  </Switch>
+                </div>
+              </div>
             </div>
           );
     } 
