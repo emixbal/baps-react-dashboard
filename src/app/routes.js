@@ -1,12 +1,20 @@
-import Index from "screens/Index.jsx";
+import DashboardScreen from "./screens/dashboard";
+import RegionScreen from "./screens/regions";
 
 var routes = [
-  {
-    path: "/index",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: Index,
-    layout: "/admin"
-  },
+    {
+        path: "/dashboard",
+        name: "Dashboard",
+        // icon: "ni ni-tv-2 text-primary",
+        component: DashboardScreen,
+        layout: "/admin"
+    },
+    {
+        path: "/regions",
+        name: "Region",
+        // icon: "ni ni-tv-2 text-primary",
+        component: RegionScreen,
+        layout: "/admin"
+    },
 ];
 export default routes;
