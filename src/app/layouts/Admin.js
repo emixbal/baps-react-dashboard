@@ -1,19 +1,32 @@
 import React from 'react';
 import { Switch, Route, Redirect } from "react-router-dom";
 
-// import static
 import "../assets/sidebar.css";
+import routes from "../routes"
 
 // import components
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
 
-// import screen
-import DashboardScreen from '../screens/DashboardScreen';
-
 class Admin extends React.Component {
     state = {
         isRedirect : false
+    }
+    // get Routes
+    getRoutes = routes => {
+      return routes.map((prop, key) => {
+        if (prop.layout === "/admin") {
+          return (
+            <Route
+              path={prop.layout + prop.path}
+              component={prop.component}
+              key={key}
+            />
+          );
+        } else {
+          return null;
+        }
+      });
     }
     render(){
         if(this.state.isRedirect){
@@ -30,11 +43,12 @@ class Admin extends React.Component {
                 <AdminHeader />
                 {/* nav end */}
                 <div className="container-fluid">
-                  <Switch>
-                    <Route exac path={'/admin/dashboard'} component={DashboardScreen} key="1" />
-                    <Route path={'/admin/regions'} component={DashboardScreen} key="2" />
-                    <Redirect from="/admin/" to="/admin/dashboard" />
-                  </Switch>
+                  <div className="content mt-md-3">
+                    <Switch>
+                      {this.getRoutes(routes)}
+                      <Redirect from="/admin/" to="/admin/dashboard" />
+                    </Switch>
+                  </div>
                 </div>
               </div>
             </div>
