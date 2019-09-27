@@ -5,7 +5,9 @@ class RegionCard extends Component {
         return(
             <div className="col-sm-3 mb-sm-3">
                 <div className="card">
-                    <div className="card-body">Basic card</div>
+                    <div className="card-body">
+                        {this.props.name}
+                    </div>
                 </div>
             </div>
         )
