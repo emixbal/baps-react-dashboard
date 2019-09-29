@@ -12,6 +12,11 @@ class Admin extends React.Component {
     state = {
         isRedirect : false
     }
+    componentDidMount(){
+      if(localStorage.getItem('token')==null){
+        this.setState({isRedirect:true})
+      }
+    }
     // get Routes
     getRoutes = routes => {
       return routes.map((prop, key) => {
@@ -29,6 +34,8 @@ class Admin extends React.Component {
       });
     }
     render(){
+        console.log(this.state.isRedirect);
+        
         if(this.state.isRedirect){
             return <Redirect to={"/auth"} />
         }
