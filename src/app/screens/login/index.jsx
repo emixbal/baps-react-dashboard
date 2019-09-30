@@ -1,29 +1,47 @@
 import React, { Component } from 'react'
-import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom'
 
-import { login } from '../../redux/actions/login';
+import { login } from '../../redux/actions/auth';
 
 class LoginScreen extends Component{
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         email:'',
-    //         password:''
-    //     }
-    // }
-    state = {
-        email:'',
-        password:''
+    constructor(props) {
+        super(props);
+        this.state = {
+            email:'',
+            password:''
+        }
     }
 
     handleLoginButton() {
-        alert(JSON.stringify(this.state))
-        // this.props.dispatch(login(user));
+        const user = {
+            email: this.state.email,
+            password: this.state.password
+        }
+        this.props.dispatch(login(user));
     }
+    // dinamis form fill
     onChange = e => this.setState({ [e.target.name]: e.target.value })
 
     render(){        
+        if(this.props.auth.isFinish){
+            if(localStorage.getItem('token')!=null){
+                return <Redirect to="/admin/dashboard" />
+            }
+        }
+        if(this.props.auth.isLoading){
+            return(
+                <div className="spinner-border"></div>
+            );
+        }
+        // segera di ganti dengan toast
+        if(this.props.auth.isError){
+            console.log(this.props.auth.errorMessage)
+        }
+        // segera di ganti dengan toast
+        if(this.props.auth.isNetworkError){
+            console.log("tidak dapat terhubung ke server")
+        }
         return(
             <div className="container">
                 <div className="content">
@@ -59,7 +77,7 @@ class LoginScreen extends Component{
                                             onChange={this.onChange}
                                         />
                                     </div>
-                                    <button className="btn btn-primary" onClick={this.handleLoginButton}>Login</button>
+                                    <button className="btn btn-primary" onClick={()=>this.handleLoginButton()}>Login</button>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +89,7 @@ class LoginScreen extends Component{
 }
 
 const mapStateToPros = state => ({
-    region: state.region
+    auth: state.auth
 })
 
 export default connect(mapStateToPros)(LoginScreen);
