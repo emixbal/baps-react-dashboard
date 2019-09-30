@@ -2,10 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import { Provider } from 'react-redux';
 
-import { store } from './app/redux/store'
+import { store } from './app/redux/store';
 
-import Admin from "./app/layouts/Admin"
-import Auth from "./app/layouts/Auth"
+import Admin from "./app/layouts/Admin";
+import Auth from "./app/layouts/Auth";
 
 function App() {
   return (
