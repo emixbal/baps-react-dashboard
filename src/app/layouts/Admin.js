@@ -8,6 +8,10 @@ import routes from "../routes"
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
 
+//loading another screen
+import RegionsDetailScreen from '../screens/regionsDetail';
+
+
 class Admin extends React.Component {
     state = {
         isRedirect : false
@@ -33,9 +37,7 @@ class Admin extends React.Component {
         }
       });
     }
-    render(){
-        console.log(this.state.isRedirect);
-        
+    render(){        
         if(this.state.isRedirect){
             return <Redirect to={"/auth"} />
         }
@@ -52,6 +54,7 @@ class Admin extends React.Component {
                 <div className="container-fluid">
                   <div className="content mt-md-3">
                     <Switch>
+                      <Route path={`/admin/regions/detail/:id`} component={RegionsDetailScreen} />
                       {this.getRoutes(routes)}
                       <Redirect from="/admin/" to="/admin/dashboard" />
                     </Switch>
