@@ -3,20 +3,25 @@ import { connect } from 'react-redux';
 
 //import componenets
 import RegionCard from "./RegionCard"
+import RegionModalAdd from "./RegionModalAdd"
 
 //import redux action
-import { fetchAll } from '../../redux/actions/regions';
+import { fetchAll } from '../../redux/actions/region';
 
 class RegionScreen extends Component {
-    // constructor(props) {
-    //     super(props);
-    // }
-
     componentDidMount() {
         this.props.dispatch(fetchAll());
     }
     render(){
-        console.log(this.props.region.data);
+        // segera di ganti dengan toast
+        if(this.props.region.isError){
+            alert(this.props.region.errorMessage)
+        }
+        // segera di ganti dengan toast
+        if(this.props.region.isNetworkError){
+            alert("tidak dapat terhubung ke server")
+        }
+
         if(this.props.region.isLoading){
             return(
                 <>
@@ -27,13 +32,13 @@ class RegionScreen extends Component {
         return(
             <>
                 <div className="row">
-                    <button className="btn btn-primary btn-md offset-sm-10">Tambah data</button>
+                    <div className="offset-sm-10"><RegionModalAdd buttonLabel="Tambah data" /></div>
                 </div>
                 <hr />
                 <div className="row">
                     {
                         this.props.region.data.map(data =>
-                            <RegionCard key={data.id} name={data.first_name} />
+                            <RegionCard key={data.id} name={data.name} id={data.id} />
                         )
                     }
                 </div>
