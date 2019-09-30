@@ -13,7 +13,8 @@ class AdminSidebar extends Component {
                         className="list-group-item list-group-item-action bg-light"
                         to={prop.layout + prop.path}
                         onClick={this.closeCollapse}
-                        activeClassName="active"
+                        // className={isActive ? 'active' : ''}
+                        // activeClassName="active"
                     >
                         {prop.name}
                     </Link>
