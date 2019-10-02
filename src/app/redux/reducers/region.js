@@ -3,9 +3,8 @@ const initialState = {
     isLoading: false,
     isFinish: false,
     isError: false,
-    statusCode:'',
+    statusCode:0,
     errorMessage:'',
-    isNetworkError:false,
     regionDetail:{}
 }
 
@@ -22,6 +21,7 @@ export default (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 isFinish: true,
+                isError: false,
                 data: action.payload.data
             }
 
@@ -36,7 +36,10 @@ export default (state = initialState, action) => {
                 }
             }
             return {
-                ...state, isError: true, isLoading: false, isNetworkError: true,
+                ...state,
+                isError: true,
+                isLoading: false,
+                errorMessage:'server not response',
             }
 
         // case create a new region
@@ -50,6 +53,7 @@ export default (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 isFinish: true,
+                isError: false,
                 regionDetail: action.payload.data
             }
 
@@ -64,7 +68,10 @@ export default (state = initialState, action) => {
                 }
             }
             return {
-                ...state, isError: true, isLoading: false, isNetworkError: true,
+                ...state,
+                isError: true,
+                isLoading: false,
+                errorMessage:'server not response',
             }
 
         // case get detail
@@ -92,7 +99,10 @@ export default (state = initialState, action) => {
                 }
             }
             return {
-                ...state, isError: true, isLoading: false, isNetworkError: true,
+                ...state,
+                isError: true,
+                isLoading: false,
+                errorMessage:'server not response',
             }
 
         default:
