@@ -3,7 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { connect } from 'react-redux';
 
 //import redux action
-import { create, fetchAll } from '../../redux/actions/region';
+import { update, getDetail } from '../../redux/actions/region';
 
 class RegionModalUpdate extends React.Component {
     constructor(props) {
@@ -19,6 +19,13 @@ class RegionModalUpdate extends React.Component {
         this.handleOpen = this.handleOpen.bind(this);
     }
 
+    componentDidMount(){
+        this.setState({
+            name:this.props.region.regionDetail.name,
+            description:this.props.region.regionDetail.description
+        })
+    }
+
     handleOpen() {
         this.setState(prevState => ({
             modal: !prevState.modal
@@ -32,16 +39,16 @@ class RegionModalUpdate extends React.Component {
         }));
     }
 
-    handleSubmit() {
+    async handleSubmit(id) {
         const region = {
             "name":this.state.name,
             "description":this.state.description
         }
-        this.props.dispatch(create(region));
+        await this.props.dispatch(update(this.props.id, region));
         this.setState(prevState => ({
             modal: !prevState.modal
         }));
-        this.props.dispatch(fetchAll());
+        await this.props.dispatch(getDetail(this.props.id));
     }
 
     // dinamically form fill
@@ -49,20 +56,11 @@ class RegionModalUpdate extends React.Component {
 
     render() {
         const { regionDetail } = this.props.region
-        
-        // segera di ganti dengan toast
-        if(this.props.region.isError){
-            console.log(this.props.region.errorMessage)
-        }
-        // segera di ganti dengan toast
-        if(this.props.region.isNetworkError){
-            console.log("tidak dapat terhubung ke server")
-        }
         return (
             <div>
                 <Button color="primary" onClick={this.handleOpen}>{this.props.buttonLabel}</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>Update Region</ModalHeader>
                     <ModalBody>
                         <div className="form-group">
                             <label >Current name: {regionDetail.name}</label>
